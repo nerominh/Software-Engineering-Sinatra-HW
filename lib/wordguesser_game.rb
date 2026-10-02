@@ -40,8 +40,9 @@ class WordGuesserGame
 
   # check 6: check win or lose
   def check_win_or_lose
+    return :play if @word.empty? # Check for new player, if empty word, then force play, rejecting typing /win and see You Win
     return :lose if @wrong_guesses.length >= 7
-    return :win unless word_with_guesses.include?('-') # unless: "if ot", the player wins if no - is left and number of wrong guesses is < 7
+    return :win unless word_with_guesses.include?('-') # unless: "if not", the player wins if no - is left and number of wrong guesses is < 7
     :play
   end
 

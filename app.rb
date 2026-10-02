@@ -45,7 +45,15 @@ class WordGuesserApp < Sinatra::Base
     # .to_s: make sure no crash if the box empty, [0] keep only the first character
 
     ### YOUR CODE HERE ###
-    @game.guess(letter) # Part 1 to method updates guesses/wrong_guesses
+    begin
+      # Part 1 to method updates guesses/wrong_guesses
+      if !@game.guess(letter) # if the guess return false --> Repeated words in both guess right and wrong
+        flash[:message] = "You have already used that letter."
+      end
+    rescue ArgumentError
+      flash[:message] = "Invalid guess."
+    end
+
     redirect '/show'
   end
 
@@ -56,16 +64,26 @@ class WordGuesserApp < Sinatra::Base
   # wrong_guesses and word_with_guesses from @game.
   get '/show' do
     ### YOUR CODE HERE ###
-    erb :show # You may change/remove this line
+    case @game.check_win_or_lose
+    when :win then redirect '/win'
+    when :lose then redirect '/lose'
+    else erb :show #
+    end
   end
 
   get '/win' do
     ### YOUR CODE HERE ###
-    erb :win # You may change/remove this line
+    case @game.check_win_or_lose
+    when :win then erb :win 
+    else redirect '/show'
+    end
   end
 
   get '/lose' do
     ### YOUR CODE HERE ###
-    erb :lose # You may change/remove this line
+    case @game.check_win_or_lose
+    when :lose then erb :lose 
+    else redirect '/show'
+    end
   end
 end
