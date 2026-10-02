@@ -8,22 +8,24 @@ class WordGuesserApp < Sinatra::Base
 
   set :host_authorization, { permitted_hosts: [] }  
 
+  # Before and after: code that runs around EVERY REQUEST
   before do
-    @game = session[:game] || WordGuesserGame.new('')
+    @game = session[:game] || WordGuesserGame.new('') # Load the game from the cookie
+    # Basically: game = game from the cookie, OR an empty game if there isn't any
   end
 
   after do
-    session[:game] = @game
+    session[:game] = @game # Save it back into the cookie
   end
 
   # These two routes are good examples of Sinatra syntax
   # to help you with the rest of the assignment
   get '/' do
-    redirect '/new'
+    redirect '/new' # redirect to /new
   end
 
   get '/new' do
-    erb :new
+    erb :new # renders views/new.erb (the file in views), looks for views/new.erb --> run through embedded Ruby
   end
 
   post '/create' do
