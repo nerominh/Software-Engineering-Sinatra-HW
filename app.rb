@@ -28,13 +28,13 @@ class WordGuesserApp < Sinatra::Base
     erb :new # renders views/new.erb (the file in views), looks for views/new.erb --> run through embedded Ruby
   end
 
-  post '/create' do
+  post '/create' do # This route create a new game
     # NOTE: don't change next line - it's needed by autograder!
-    word = params[:word] || WordGuesserGame.get_random_word
+    word = params[:word] || WordGuesserGame.get_random_word # get the random word
     # NOTE: don't change previous line - it's needed by autograder!
 
-    @game = WordGuesserGame.new(word)
-    redirect '/show'
+    @game = WordGuesserGame.new(word) # Make new game
+    redirect '/show' # Show it
   end
 
   # Use existing methods in WordGuesserGame to process a guess.
